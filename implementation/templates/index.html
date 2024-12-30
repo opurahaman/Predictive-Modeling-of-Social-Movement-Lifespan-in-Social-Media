@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}ML Models Interface{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="grid"></div>
+    <h1 class="title">Predictive Modeling of Social Movement Lifespan in Social Media</h1>
+
+    <!-- Model 1 Form -->
+    <div class="model-section">
+        <h2>Get Movements</h2>
+        <div class="lava-lamp">
+            <div class="bubble"></div>
+            <div class="bubble1"></div>
+            <div class="bubble2"></div>
+            <div class="bubble3"></div>
+        </div>
+        <form action="{{ url_for('predict_model1') }}" method="POST">
+            <div id="poda">
+                <div class="glow"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="white"></div>
+                <div class="border"></div>
+                <div id="main">
+                    <textarea name="text" placeholder="Enter text..." class="input" required></textarea>
+                    <div id="input-mask"></div>
+                    <div id="pink-mask"></div>
+                </div>
+            </div>
+            <button class="predict-button">
+                <span class="text">Predict</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Model 2 Form -->
+    <div class="model-section">
+        <h2>Get Similar Movements</h2>
+        <div class="lava-lamp">
+            <div class="bubble"></div>
+            <div class="bubble1"></div>
+            <div class="bubble2"></div>
+            <div class="bubble3"></div>
+        </div>
+        <form action="{{ url_for('predict_model2') }}" method="POST">
+            {% for i, label in [
+            (1, 'Positive Sentiment'),
+            (2, 'Negative Sentiment'),
+            (3, 'Neutral Sentiment'),
+            (4, 'Counter Movement'),
+            (5, 'Cultural Relevance'),
+            (6, 'Political Nature'),
+            (7, 'Legality Nature')
+            ] %}
+            <div id="poda">
+                <div class="glow"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="white"></div>
+                <div class="border"></div>
+                <div id="main">
+                    <input type="number" step="any" name="value{{i}}" placeholder="{{ label }}" class="input" required>
+                    <div id="input-mask"></div>
+                    <div id="pink-mask"></div>
+                </div>
+            </div>
+            {% endfor %}
+            <button class="predict-button">
+                <span class="text">Predict</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Model 3 Form -->
+    <div class="model-section">
+        <h2>Predict Duration</h2>
+        <div class="lava-lamp">
+            <div class="bubble"></div>
+            <div class="bubble1"></div>
+            <div class="bubble2"></div>
+            <div class="bubble3"></div>
+        </div>
+        <form action="{{ url_for('predict_model3') }}" method="POST">
+            {% for field in ['positive_sentiment', 'negative_sentiment', 'neutral_sentiment',
+            'counter_movement', 'cultural_relevance', 'political_nature', 'legality_nature'] %}
+            <div id="poda">
+                <div class="glow"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="darkBorderBg"></div>
+                <div class="white"></div>
+                <div class="border"></div>
+                <div id="main">
+                    <input type="number" step="any" name="{{ field }}" placeholder="{{ field|replace('_', ' ')|title }}"
+                        class="input" required>
+                    <div id="input-mask"></div>
+                    <div id="pink-mask"></div>
+                </div>
+            </div>
+            {% endfor %}
+            <button class="predict-button">
+                <span class="text">Predict</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function () {
+            const modelSection = this.closest('.model-section');
+            modelSection.classList.add('loading');
+        });
+    });
+</script>
+{% endblock %}

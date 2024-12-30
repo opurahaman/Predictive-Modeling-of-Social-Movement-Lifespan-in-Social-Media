@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction Result{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="result-card">
+        <div class="result-header">
+            <h1>Prediction Result</h1>
+        </div>
+
+        {% if error %}
+        <div class="error-message">
+            <div class="error-icon">❌</div>
+            <div class="error-content">
+                <h3>Error Occurred</h3>
+                <p>{{ error }}</p>
+            </div>
+        </div>
+        {% else %}
+        <div class="success-message">
+            <div class="success-icon">✅</div>
+            <div class="result-content">
+                <h3>Result Found: </h3>
+                <div class="result-box">
+                    <div class="movement-list">
+                        {% if result.data is defined %}
+                        {% for movement in result.data %}
+                        <div class="movement-item">
+                            <span class="movement-icon">🔹</span>
+                            {{ movement }}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        {{ result | tojson(indent=2) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="button-container">
+            <a href="{{ url_for('home') }}" class="back-button">
+                <span class="button-icon">⬅️</span>
+                Back to Home
+            </a>
+            <button onclick="window.print()" class="print-button">
+                <span class="button-icon">🖨️</span>
+                Print Result
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
